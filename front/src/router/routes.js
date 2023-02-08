@@ -8,6 +8,11 @@ const routes = [
     ]
   },
 
+  {
+    path: '/newAccount',
+    component: () => import('pages/NewAccount.vue')
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

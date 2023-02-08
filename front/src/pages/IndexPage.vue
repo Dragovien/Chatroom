@@ -1,8 +1,8 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="flex adjust">
+    <div class="flex adjust q-px-md">
       <div class="q-pa-md">
-        <h1>Connexion à votre compte</h1>
+        <h1 class="main-title">Login</h1>
       </div>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <q-input
@@ -30,6 +30,8 @@
             flat
             class="q-ml-sm"
           />
+        </div>
+        <div class="q-my-lg">
           <q-btn label="Create a new account" type="submit" color="primary" />
         </div>
       </q-form>
@@ -42,11 +44,27 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "IndexPage",
+  data() {
+    return {
+      pseudo: '',
+      password: '',
+    }
+  }
 });
 </script>
 
 <style>
 .adjust {
   flex-direction: column;
+  border: 2px solid black
+}
+
+.main-title {
+  font-size: 40px;
+  text-align: center;
+}
+
+.rounded-borders {
+  border-color: black;
 }
 </style>
