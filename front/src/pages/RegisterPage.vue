@@ -60,6 +60,7 @@ export default defineComponent({
   methods: {
     onSubmit() {
       socket.emit("register", {
+        id: self.crypto.randomUUID(),
         pseudo: this.pseudo,
         password: this.password,
         email: this.email,

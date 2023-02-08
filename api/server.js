@@ -12,16 +12,18 @@ var io = require("socket.io")(http, {
     }
 });
 
-io.on("register", (user) => {
-    const test = new User(user);
-    console.log(test);
-})
+
 
 io.on("connection", function(socket){
     console.log("connected");
     socket.on("message", (message) => {
         console.log(socket.emit("messageReceived", message));
         console.log(message);
+    })
+
+    socket.on("register", (user) => {
+        registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email));
+        console.log(registeredUsers);
     })
 })
 
