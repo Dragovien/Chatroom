@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <div class="flex adjust q-px-md">
       <div class="q-pa-md">
-        <h1 class="main-title">Login</h1>
+        <h1 class="main-title">Register</h1>
       </div>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <q-input
@@ -21,6 +21,14 @@
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
         />
+        <q-input
+          filled
+          v-model="email"
+          label="Your email *"
+          hint="email address"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        />
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
           <q-btn
@@ -31,9 +39,6 @@
             class="q-ml-sm"
           />
         </div>
-        <div class="q-my-lg">
-          <q-btn label="Create a new account" type="submit" color="primary" @click="toRegister" />
-        </div>
       </q-form>
     </div>
   </q-page>
@@ -41,30 +46,33 @@
 
 <script>
 import { defineComponent } from "vue";
+import socket from "src/utils/socket";
 
 export default defineComponent({
-  name: "IndexPage",
+  name: "RegisterPage",
   data() {
     return {
-      pseudo: '',
-      password: '',
-    }
+      pseudo: "",
+      password: "",
+      email: "",
+    };
   },
   methods: {
     onSubmit() {
-      console.log(this.pseudo, this.password);
+      socket.emit("register", {
+        pseudo: this.pseudo,
+        password: this.password,
+        email: this.email,
+      });
     },
-    toRegister() {
-      this.$router.push({ name: "RegisterPage" });
-    }
-  }
+  },
 });
 </script>
 
 <style scoped>
 .adjust {
   flex-direction: column;
-  border: 2px solid black
+  border: 2px solid black;
 }
 
 .main-title {

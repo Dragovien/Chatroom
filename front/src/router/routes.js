@@ -5,13 +5,10 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'chatroom', component: () => import('pages/ChatPage.vue') }
-    ]
-  },
+      { path: 'chatroom', component: () => import('pages/ChatPage.vue') },
+      { path: 'newAccount', name: "RegisterPage", component: () => import('pages/RegisterPage.vue') },
 
-  {
-    path: '/newAccount',
-    component: () => import('pages/NewAccount.vue')
+    ]
   },
 
   // Always leave this as last one,

@@ -1,5 +1,6 @@
-
 const app = require('express')();
+const User = require('./Classes/User.js');
+
 const registeredUsers = [];
 
 app.set("port", process.env.PORT || 3000);
@@ -10,6 +11,11 @@ var io = require("socket.io")(http, {
         origin : "*",
     }
 });
+
+io.on("register", (user) => {
+    const test = new User(user);
+    console.log(test);
+})
 
 io.on("connection", function(socket){
     console.log("connected");
