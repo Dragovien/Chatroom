@@ -71,7 +71,7 @@ export default defineComponent({
         :label="getDate()"
         />
       </div> -->
-      <div style="width: 100%; max-width: 400px">
+      <div v-if="chatMessages.length >= 1" style="width: 100%; max-width: 400px">
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
           <q-chat-message
             :text="[chatMessage.message]"
