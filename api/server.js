@@ -27,6 +27,14 @@ io.on("connection", function(socket){
         registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email));
         console.log(registeredUsers);
     })
+
+    socket.on("login", (credentials) => {
+        let foundUser = User.getUserByName(credentials.pseudo, registeredUsers);
+        if(foundUser && credentials.password === foundUser.password){
+            socket.emit('checkedUser', foundUser);
+        }
+    })
+    
 })
 
 const server = http.listen(3000, function() {

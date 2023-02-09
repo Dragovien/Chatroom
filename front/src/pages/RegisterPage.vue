@@ -65,6 +65,7 @@ export default defineComponent({
         password: this.password,
         email: this.email,
       });
+      this.$router.push({ name: "LoginPage" });
     },
   },
 });

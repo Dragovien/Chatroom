@@ -32,7 +32,12 @@
           />
         </div>
         <div class="q-my-lg">
-          <q-btn label="Create a new account" type="submit" color="primary" @click="toRegister" />
+          <q-btn
+            label="Create a new account"
+            type="submit"
+            color="primary"
+            @click="toRegister"
+          />
         </div>
       </q-form>
     </div>
@@ -41,30 +46,48 @@
 
 <script>
 import { defineComponent } from "vue";
+import socket from "src/utils/socket";
+import { useUserStore } from "../stores/user";
+const store = useUserStore();
 
 export default defineComponent({
   name: "IndexPage",
   data() {
     return {
-      pseudo: '',
-      password: '',
-    }
+      pseudo: "",
+      password: "",
+    };
   },
   methods: {
     onSubmit() {
-      console.log(this.pseudo, this.password);
+      socket.emit("login", {
+        pseudo: this.pseudo,
+        password: this.password,
+      });
     },
     toRegister() {
       this.$router.push({ name: "RegisterPage" });
-    }
-  }
+    },
+
+  },
+  mounted() {
+    var router = this.$router;
+
+    socket.on("checkedUser", (loggedUser) => {
+      store.$patch({
+        user: loggedUser,
+      });
+      router.push({ name: "ChatPage" });
+
+    });
+  },
 });
 </script>
 
 <style scoped>
 .adjust {
   flex-direction: column;
-  border: 2px solid black
+  border: 2px solid black;
 }
 
 .main-title {
