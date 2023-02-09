@@ -6,7 +6,7 @@ import { useUserStore } from "../stores/user";
 const userStore = useUserStore;
 
 export default defineComponent({
-  name: "ChatRoom",
+  name: "ChatRoom",   
   data() {
     return {
       text: "",

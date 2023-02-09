@@ -17,8 +17,9 @@ var io = require("socket.io")(http, {
 io.on("connection", function(socket){
     console.log("connected");
     socket.on("messageSent", (user, message) => {
-        registeredMessages.push(new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message))
-        console.log(socket.emit("messageReceived", message));
+        let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
+        registeredMessages.push(newMessage)
+        console.log(socket.emit("messageReceived", newMessage));
         console.log(registeredMessages);
 
     })
@@ -34,6 +35,8 @@ io.on("connection", function(socket){
             socket.emit('checkedUser', foundUser);
         }
     })
+
+
     
 })
 
