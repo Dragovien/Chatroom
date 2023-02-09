@@ -12,8 +12,8 @@ export default defineComponent({
   },
   methods: {
     sendMsg() {
-      socket.emit("message", text.value);
-      text.value = "";
+      socket.emit("message", this.text);
+      this.text = "";
     }
   },
   mounted() {
