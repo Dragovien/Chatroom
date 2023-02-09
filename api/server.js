@@ -17,9 +17,10 @@ var io = require("socket.io")(http, {
 io.on("connection", function(socket){
     console.log("connected");
     socket.on("messageSent", (user, message) => {
+        console.log(user)
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
         registeredMessages.push(newMessage)
-        console.log(socket.emit("messageReceived", newMessage));
+        socket.emit("messageReceived", newMessage);
         console.log(registeredMessages);
 
     })

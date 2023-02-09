@@ -2,11 +2,10 @@
 import { defineComponent, ref } from "vue";
 import socket from "src/utils/socket";
 import { useUserStore } from "../stores/user";
-
-const userStore = useUserStore;
+const userStore = useUserStore();
 
 export default defineComponent({
-  name: "ChatRoom",   
+  name: "ChatRoom",
   data() {
     return {
       text: "",
@@ -15,13 +14,27 @@ export default defineComponent({
   },
   methods: {
     sendMsg() {
-      socket.emit("messageSent", this.userStore.user ,this.text);
+      console.log();
+      socket.emit("messageSent", userStore.user, this.text);
       this.text = "";
-    }
+    },
+
+    isSender(id) {
+      if (id === userStore.user.id) return true;
+      return false;
+    },
   },
+  // setup() {
+  //   const userStore = useUserStore();
+  //   const {user} = userStore;
+  //   return {
+  //     user,
+  //   };
+  // },
   mounted() {
     socket.on("messageReceived", (data) => {
-      console.log(data);
+      this.chatMessages.push(data);
+      console.log(this.chatMessages);
     });
   },
 });
@@ -31,10 +44,14 @@ export default defineComponent({
   <div class="wrapper">
     <div class="q-pa-md row justify-center">
       <div style="width: 100%; max-width: 400px">
-        <!-- <q-chat-message
-        v-for="message in chatMessages.values"
-        :text="message"
-      /> -->
+        <div v-for="(chatMessage, i) in chatMessages" :key="i">
+          <q-chat-message
+            :text="[chatMessage.message]"
+            :name="chatMessage.sender.pseudo"
+            bg-color="amber-7"
+            :sent="isSender(chatMessage.sender.id)"
+          />
+        </div>
       </div>
     </div>
     <q-input rounded outlined v-model="text" class="textInput">
