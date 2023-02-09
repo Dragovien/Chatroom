@@ -16,8 +16,8 @@ var io = require("socket.io")(http, {
 
 io.on("connection", function(socket){
     console.log("connected");
-    socket.on("messageSent", (message) => {
-        registeredMessages.push(new ChatMessage(User.getUserById("99904c9d-6d8c-4890-ba30-fa5ebcbb5cc5", registeredUsers)))
+    socket.on("messageSent", (user, message) => {
+        registeredMessages.push(new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message))
         console.log(socket.emit("messageReceived", message));
         console.log(registeredMessages);
 

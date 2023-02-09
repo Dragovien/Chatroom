@@ -1,18 +1,21 @@
 <script>
 import { defineComponent, ref } from "vue";
 import socket from "src/utils/socket";
+import { useUserStore } from "../stores/user";
+
+const userStore = useUserStore;
 
 export default defineComponent({
   name: "ChatRoom",
   data() {
     return {
       text: "",
-      chatMessages: [""],
+      chatMessages: [],
     };
   },
   methods: {
     sendMsg() {
-      socket.emit("message", this.text);
+      socket.emit("messageSent", this.userStore.user ,this.text);
       this.text = "";
     }
   },
