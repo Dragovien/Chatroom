@@ -16,6 +16,10 @@ var io = require("socket.io")(http, {
 
 io.on("connection", function(socket){
     console.log("connected");
+    socket.on("getAllMessages", () => {
+        socket.emit("sendAllMessages", registeredMessages)
+    })
+        
     const users = [];
     for(let [id,socket] of io.of("/").sockets) {
         users.push({
@@ -31,9 +35,7 @@ io.on("connection", function(socket){
         console.log(user)
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
         registeredMessages.push(newMessage)
-        socket.emit("messageReceived", newMessage);
-        console.log(registeredMessages);
-
+        socket.emit("messageReceived", registeredMessages);
     })
 
     socket.on("register", (user, callback) => {

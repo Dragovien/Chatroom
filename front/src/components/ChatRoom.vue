@@ -45,9 +45,16 @@ export default defineComponent({
     // }
   },
   mounted() {
-    socket.on("messageReceived", (data) => {
-      this.chatMessages.push(data);
-      console.log(this.chatMessages);
+    this.chatMessages = socket.emit("getAllMessages");
+    // socket.on("receiveAllMessages", (messages) => {
+    //   this.chatMessages = messages;
+    // })
+    socket.on("sendAllMessages", (messages) => {
+      this.chatMessages = messages;
+    })
+    socket.on("messageReceived", (messages) => {
+      // this.chatMessages.push(data);
+      this.chatMessages = messages;
     });
   },
 });
