@@ -32,9 +32,16 @@ export default defineComponent({
   //   };
   // },
   mounted() {
-    socket.on("messageReceived", (data) => {
-      this.chatMessages.push(data);
-      console.log(this.chatMessages);
+    this.chatMessages = socket.emit("getAllMessages");
+    // socket.on("receiveAllMessages", (messages) => {
+    //   this.chatMessages = messages;
+    // })
+    socket.on("sendAllMessages", (messages) => {
+      this.chatMessages = messages;
+    })
+    socket.on("messageReceived", (messages) => {
+      // this.chatMessages.push(data);
+      this.chatMessages = messages;
     });
   },
 });
@@ -45,12 +52,8 @@ export default defineComponent({
     <div class="q-pa-md row justify-center">
       <div style="width: 100%; max-width: 400px">
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
-          <q-chat-message
-            :text="[chatMessage.message]"
-            :name="chatMessage.sender.pseudo"
-            bg-color="amber-7"
-            :sent="isSender(chatMessage.sender.id)"
-          />
+          <q-chat-message :text="[chatMessage.message]" :name="chatMessage.sender.pseudo" bg-color="amber-7"
+            :sent="isSender(chatMessage.sender.id)" />
         </div>
       </div>
     </div>

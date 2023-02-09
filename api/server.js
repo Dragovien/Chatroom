@@ -16,13 +16,16 @@ var io = require("socket.io")(http, {
 
 io.on("connection", function(socket){
     console.log("connected");
+    socket.on("getAllMessages", () => {
+        socket.emit("sendAllMessages", registeredMessages)
+    })
+        
+
     socket.on("messageSent", (user, message) => {
         console.log(user)
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
         registeredMessages.push(newMessage)
-        socket.emit("messageReceived", newMessage);
-        console.log(registeredMessages);
-
+        socket.emit("messageReceived", registeredMessages);
     })
 
     socket.on("register", (user) => {
