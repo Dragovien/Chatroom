@@ -59,11 +59,17 @@ export default defineComponent({
   },
   methods: {
     onSubmit() {
-      socket.emit("register", {
+      socket.connect();
+      socket.emit("register", ({
         id: self.crypto.randomUUID(),
         pseudo: this.pseudo,
         password: this.password,
         email: this.email,
+      }), (res) => {
+        console.log(res);
+        if(res.status === "ok") {
+          socket.disconnect();
+        }
       });
       this.$router.push({ name: "LoginPage" });
     },

@@ -16,6 +16,17 @@ var io = require("socket.io")(http, {
 
 io.on("connection", function(socket){
     console.log("connected");
+    const users = [];
+    for(let [id,socket] of io.of("/").sockets) {
+        users.push({
+            userId: id,
+            pseudo: socket.pseudo
+        });
+    }
+    console.log('utilisateurs connectés: ' + users)
+
+
+
     socket.on("messageSent", (user, message) => {
         console.log(user)
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
@@ -25,9 +36,10 @@ io.on("connection", function(socket){
 
     })
 
-    socket.on("register", (user) => {
+    socket.on("register", (user, callback) => {
         registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email));
         console.log(registeredUsers);
+        callback({status: "ok"});
     })
 
     socket.on("login", (credentials) => {

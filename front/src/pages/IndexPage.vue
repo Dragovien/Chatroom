@@ -60,6 +60,7 @@ export default defineComponent({
   },
   methods: {
     onSubmit() {
+      socket.connect();
       socket.emit("login", {
         pseudo: this.pseudo,
         password: this.password,

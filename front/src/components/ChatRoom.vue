@@ -4,6 +4,7 @@ import socket from "src/utils/socket";
 import { useUserStore } from "../stores/user";
 const userStore = useUserStore();
 
+
 export default defineComponent({
   name: "ChatRoom",
   data() {
@@ -23,14 +24,26 @@ export default defineComponent({
       if (id === userStore.user.id) return true;
       return false;
     },
+
+    getTime() {
+      const date = new Date();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return `${hours}:${minutes}`;
+    },
+
+    changeTheme() {
+      this.$q.dark.toggle();
+    },
+
+    // getDate() {
+    //   const date = new Date();
+    //   const day = date.getDay();
+    //   const month = date.getMonth();
+    //   const year = date.getFullYear();
+    //   return `${day}/${month}/${year}`;
+    // }
   },
-  // setup() {
-  //   const userStore = useUserStore();
-  //   const {user} = userStore;
-  //   return {
-  //     user,
-  //   };
-  // },
   mounted() {
     socket.on("messageReceived", (data) => {
       this.chatMessages.push(data);
@@ -43,6 +56,14 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <div class="q-pa-md row justify-center">
+      <div>
+        <q-btn @click="changeTheme()"> change theme </q-btn>
+      </div>
+      <!-- <div>
+        <q-chat-message
+        :label="getDate()"
+        />
+      </div> -->
       <div style="width: 100%; max-width: 400px">
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
           <q-chat-message
@@ -50,6 +71,7 @@ export default defineComponent({
             :name="chatMessage.sender.pseudo"
             bg-color="amber-7"
             :sent="isSender(chatMessage.sender.id)"
+            :stamp="getTime()"
           />
         </div>
       </div>
