@@ -4,6 +4,12 @@
     </div>
 </template>
 
+<script>
+  export default {
+    name: 'ChatPage',
+  }
+</script>
+
 <script setup>
 import ChatRoom from '../components/ChatRoom.vue';
 

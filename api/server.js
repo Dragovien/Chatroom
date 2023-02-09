@@ -1,7 +1,9 @@
 const app = require('express')();
 const User = require('./Classes/User.js');
+const ChatMessage = require('./Classes/ChatMessage.js');
 
 const registeredUsers = [];
+const registeredMessages = [];
 
 app.set("port", process.env.PORT || 3000);
 
@@ -12,13 +14,13 @@ var io = require("socket.io")(http, {
     }
 });
 
-
-
 io.on("connection", function(socket){
     console.log("connected");
-    socket.on("message", (message) => {
+    socket.on("messageSent", (message) => {
+        registeredMessages.push(new ChatMessage(User.getUserById("99904c9d-6d8c-4890-ba30-fa5ebcbb5cc5", registeredUsers)))
         console.log(socket.emit("messageReceived", message));
-        console.log(message);
+        console.log(registeredMessages);
+
     })
 
     socket.on("register", (user) => {
