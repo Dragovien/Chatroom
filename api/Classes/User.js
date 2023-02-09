@@ -5,6 +5,11 @@
         this.email = email;
         this.password = password;
     }
+
+    static getUserByName(pseudo, array) {
+        return array.find(user => user.pseudo === pseudo);
+    }
+
 }
 
 module.exports = User;

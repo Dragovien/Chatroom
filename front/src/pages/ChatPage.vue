@@ -4,9 +4,16 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import ChatRoom from '../components/ChatRoom.vue';
+import { defineComponent } from "vue";
 
+export default defineComponent({
+  name: "ChatPage",
+  components: {
+    ChatRoom,
+  }
+})
 
 </script>
 
