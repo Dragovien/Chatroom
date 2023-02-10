@@ -52,13 +52,18 @@ io.on("connection", function (socket) {
         let disconnectedUser = User.getUserBySocketId(socket.id, registeredUsers);
         console.log(disconnectedUser)
         disconnectedUser.socketId = null;
+        updateUserList(socket);
         console.log("user disconnected")
     })
 
     socket.on("userList", () => {
-        socket.emit('sendUserList', {registeredUsers: registeredUsers, connectedUsers: connectedUsers});
+        updateUserList(socket);
     })
 })
+
+function updateUserList(socket) {
+    socket.emit('sendUserList', {registeredUsers: registeredUsers, connectedUsers: connectedUsers})
+}
 
 const server = http.listen(3000, function () {
     console.log("listening on *:3000");

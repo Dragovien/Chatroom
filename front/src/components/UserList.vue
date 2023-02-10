@@ -44,7 +44,6 @@ import { useQuasar } from "quasar";
 import { watch } from "vue";
 import socket from "src/utils/socket";
 
-
 export default defineComponent({
   name: "RoomList",
   data() {
@@ -92,12 +91,10 @@ export default defineComponent({
   },
   mounted() {
     socket.emit("userList");
-
     socket.on("sendUserList", (allUsers) => {
       this.userList = allUsers.registeredUsers;
+    console.log(allUsers);
     });
-
-    console.log(this.filteredUsers);
   },
 });
 </script>
