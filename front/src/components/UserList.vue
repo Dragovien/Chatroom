@@ -3,15 +3,22 @@
     side="left"
     show-if-above
     bordered
-    :width="200"
+    :width="300"
     :breakpoint="500"
     class="left-panel bg-primary"
   >
     <h1 class="room-title">Liste des utilisateurs</h1>
     <q-scroll-area class="user-list">
-      <div v-for="user in userList" :key="user" class="users">
-        <p>{{ filterConnectedUsers(user.pseudo) }}</p>
-      </div>
+      <h2 class="room-title">Utilisateurs connectés</h2>
+      <ul v-for="user in filteredUsers.connectedUsers" :key="user" class="users">
+        <li>{{user.pseudo}}</li>
+      </ul>
+    </q-scroll-area>
+    <q-scroll-area class="user-list">
+      <h2 class="room-title">Utilisateurs déconnectés</h2>
+      <ul v-for="user in filteredUsers.disconnectedUsers" :key="user" class="users">
+        <li>{{user.pseudo}}</li>
+      </ul>
     </q-scroll-area>
     <div class="q-pa-sm toggle-btn">
       <q-toggle
@@ -43,13 +50,23 @@ export default defineComponent({
       userList: [],
     };
   },
+  computed: {
+    filteredUsers() {
+      let connectedUsers = [];
+      let disconnectedUsers= [];
+      this.userList.forEach((user) => {
+        if (user.socketId) {
+          connectedUsers.push(user);
+        } else {
+          disconnectUser.push(user);
+        } 
+      });
+      return {connectedUsers, disconnectedUsers};
+    },
+  },
   methods: {
     changeTheme() {
       this.$q.dark.toggle();
-    },
-
-    filterConnectedUsers() {
-      
     },
   },
   setup() {
@@ -75,17 +92,21 @@ export default defineComponent({
 
     socket.on("sendUserList", (allUsers) => {
       this.userList = allUsers.registeredUsers;
-    })
-    
-    
-  }
+    });
+
+    console.log(this.filteredUsers);
+  },
 });
 </script>
 
 <style scoped>
 
+/* .left-panel {
+  display: flex;
+  flex-wrap: wrap;
+} */
 .user-list {
-  height: 70vh;
+  height: 35vh;
 }
 .users {
   margin-left: 1em;
@@ -93,7 +114,7 @@ export default defineComponent({
 }
 
 .room-title {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: bold;
   margin: 0;
   color: white;

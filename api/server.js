@@ -54,6 +54,10 @@ io.on("connection", function (socket) {
         disconnectedUser.socketId = null;
         console.log("user disconnected")
     })
+
+    socket.on("userList", () => {
+        socket.emit('sendUserList', {registeredUsers: registeredUsers, connectedUsers: connectedUsers});
+    })
 })
 
 const server = http.listen(3000, function () {

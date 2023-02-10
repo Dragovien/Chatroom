@@ -61,15 +61,11 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <div class="q-pa-md row justify-center">
-      <div>
-        <q-btn @click="changeTheme()"> change theme </q-btn>
-      </div>
-      <div v-if="chatMessages.length >= 1" style="width: 100%; max-width: 400px">
+      <div v-if="chatMessages.length >= 1" class="message-area">
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
           <q-chat-message
             :text="[chatMessage.message]"
             :name="chatMessage.sender.pseudo"
-            bg-color="amber-7"
             :sent="isSender(chatMessage.sender.id)"
             :stamp="getTime()"
           />
@@ -83,21 +79,23 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
+
+.message-area {
+  border: 2px solid black;
+  height: 70vh;
+  width: 50vw;
+  padding: 2em
 }
 
 .wrapper {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100vh;
-  width: 25vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .textInput {
   position: absolute;
-  bottom: 0;
-  width: 25vw;
+  bottom: 1em;
+  width: 50vw;
 }
 </style>
