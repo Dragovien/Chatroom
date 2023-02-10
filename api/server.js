@@ -15,19 +15,9 @@ var io = require("socket.io")(http, {
 });
 
 io.on("connection", function (socket) {
-    console.log("connected");
     socket.on("getAllMessages", () => {
         socket.emit("sendAllMessages", registeredMessages)
     })
-
-    const users = [];
-    for (let [id, socket] of io.of("/").sockets) {
-        users.push({
-            userId: id,
-            pseudo: socket.pseudo
-        });
-    }
-    console.log('utilisateurs connectés: ' + users)
 
     socket.on("messageSent", (user, message) => {
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
@@ -36,6 +26,7 @@ io.on("connection", function (socket) {
     })
 
     socket.on("register", (user, callback) => {
+        console.log(`scoket id in register : ${socket.id}`)
         if (registeredUsers.some((regUser) => regUser.pseudo == user.pseudo)) {
             callback({ status: "err" })
         }
@@ -47,8 +38,11 @@ io.on("connection", function (socket) {
     })
 
     socket.on("login", (credentials) => {
+        console.log(`scoket id in login : ${socket.id}`)
         let foundUser = User.getUserByName(credentials.pseudo, registeredUsers);
         if (foundUser && credentials.password === foundUser.password) {
+            foundUser.socketId = socket.id;
+            console.log(foundUser);
             socket.emit('checkedUser', foundUser);
         }
     })

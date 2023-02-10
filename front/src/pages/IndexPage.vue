@@ -69,12 +69,12 @@ export default defineComponent({
     toRegister() {
       this.$router.push({ name: "RegisterPage" });
     },
-
   },
   mounted() {
     var router = this.$router;
 
     socket.on("checkedUser", (loggedUser) => {
+      console.log(loggedUser)
       store.$patch({
         user: loggedUser,
       });
