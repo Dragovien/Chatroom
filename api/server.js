@@ -31,7 +31,7 @@ io.on("connection", function (socket) {
             callback({ status: "err" })
         }
         else {
-            registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email));
+            registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email, socket.id));
             console.log(registeredUsers);
             callback({ status: "ok" });
         }
@@ -45,6 +45,13 @@ io.on("connection", function (socket) {
             console.log(foundUser);
             socket.emit('checkedUser', foundUser);
         }
+    })
+
+    socket.on("disconnect", () => {
+        let disconnectedUser = User.getUserBySocketId(socket.id, registeredUsers);
+        console.log(disconnectedUser)
+        disconnectedUser.socketId = null;
+        console.log("user disconnected")
     })
 })
 

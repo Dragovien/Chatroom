@@ -4,7 +4,6 @@ import socket from "src/utils/socket";
 import { useUserStore } from "../stores/user";
 const userStore = useUserStore();
 
-
 export default defineComponent({
   name: "ChatRoom",
   data() {
@@ -32,6 +31,10 @@ export default defineComponent({
       return `${hours}:${minutes}`;
     },
 
+    changeTheme() {
+      this.$q.dark.toggle();
+    },
+
     // getDate() {
     //   const date = new Date();
     //   const day = date.getDay();
@@ -49,7 +52,6 @@ export default defineComponent({
       this.chatMessages = messages;
     })
     socket.on("messageReceived", (messages) => {
-      // this.chatMessages.push(data);
       this.chatMessages = messages;
     });
   },
@@ -58,23 +60,18 @@ export default defineComponent({
 
 <template>
   <div class="wrapper">
-    <div class="q-pa-md row justify-center test">
-      
-      <!-- <div>
-        <q-chat-message
-        :label="getDate()"
-        />
-      </div> -->
-      <div v-if="chatMessages.length >= 1" class="message-area">
+    <div class="q-pa-md row justify-center">
+      <div>
+        <q-btn @click="changeTheme()"> change theme </q-btn>
+      </div>
+      <div v-if="chatMessages.length >= 1" style="width: 100%; max-width: 400px">
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
           <q-chat-message
             :text="[chatMessage.message]"
-            text-html
             :name="chatMessage.sender.pseudo"
-            name-html
+            bg-color="amber-7"
             :sent="isSender(chatMessage.sender.id)"
             :stamp="getTime()"
-            class="chat-message"
           />
         </div>
       </div>
@@ -91,28 +88,16 @@ export default defineComponent({
 }
 
 .wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.message-area {
   position: relative;
-  top: 2em;
-  border: 2px solid black;
-  width: 50vw;
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 80vh;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100vh;
+  width: 25vw;
 }
 
 .textInput {
   position: absolute;
-  bottom: 1em;
-  width: 50vw;
+  bottom: 0;
+  width: 25vw;
 }
-
-.chat-message {
-  margin: 0.5em 2em;
-}
-
 </style>
