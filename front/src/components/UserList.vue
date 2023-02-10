@@ -58,7 +58,7 @@ export default defineComponent({
         if (user.socketId) {
           connectedUsers.push(user);
         } else {
-          disconnectUser.push(user);
+          disconnectedUsers.push(user);
         } 
       });
       return {connectedUsers, disconnectedUsers};
