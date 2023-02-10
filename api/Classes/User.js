@@ -4,6 +4,7 @@
         this.pseudo = pseudo;
         this.email = email;
         this.password = password;
+        this.socketId = null;
     }
 
     static getUserByName(pseudo, array) {

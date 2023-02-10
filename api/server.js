@@ -15,7 +15,6 @@ var io = require("socket.io")(http, {
 });
 
 io.on("connection", function (socket) {
-    console.log("connected");
     socket.on("getAllMessages", () => {
         socket.emit("sendAllMessages", registeredMessages)
     })
@@ -27,6 +26,7 @@ io.on("connection", function (socket) {
     })
 
     socket.on("register", (user, callback) => {
+        console.log(`scoket id in register : ${socket.id}`)
         if (registeredUsers.some((regUser) => regUser.pseudo == user.pseudo)) {
             callback({ status: "err" })
         }
@@ -38,8 +38,11 @@ io.on("connection", function (socket) {
     })
 
     socket.on("login", (credentials) => {
+        console.log(`scoket id in login : ${socket.id}`)
         let foundUser = User.getUserByName(credentials.pseudo, registeredUsers);
         if (foundUser && credentials.password === foundUser.password) {
+            foundUser.socketId = socket.id;
+            console.log(foundUser);
             socket.emit('checkedUser', foundUser);
         }
     })
