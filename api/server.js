@@ -10,18 +10,18 @@ app.set("port", process.env.PORT || 3000);
 var http = require("http").Server(app);
 var io = require("socket.io")(http, {
     cors: {
-        origin : "*",
+        origin: "*",
     }
 });
 
-io.on("connection", function(socket){
+io.on("connection", function (socket) {
     console.log("connected");
     socket.on("getAllMessages", () => {
         socket.emit("sendAllMessages", registeredMessages)
     })
-        
+
     const users = [];
-    for(let [id,socket] of io.of("/").sockets) {
+    for (let [id, socket] of io.of("/").sockets) {
         users.push({
             userId: id,
             pseudo: socket.pseudo
@@ -36,19 +36,24 @@ io.on("connection", function(socket){
     })
 
     socket.on("register", (user, callback) => {
-        registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email));
-        console.log(registeredUsers);
-        callback({status: "ok"});
+        if (registeredUsers.some((regUser) => regUser.pseudo == user.pseudo)) {
+            callback({ status: "err" })
+        }
+        else {
+            registeredUsers.push(new User(user.id, user.pseudo, user.password, user.email));
+            console.log(registeredUsers);
+            callback({ status: "ok" });
+        }
     })
 
     socket.on("login", (credentials) => {
         let foundUser = User.getUserByName(credentials.pseudo, registeredUsers);
-        if(foundUser && credentials.password === foundUser.password){
+        if (foundUser && credentials.password === foundUser.password) {
             socket.emit('checkedUser', foundUser);
         }
     })
 })
 
-const server = http.listen(3000, function() {
-  console.log("listening on *:3000");
+const server = http.listen(3000, function () {
+    console.log("listening on *:3000");
 });

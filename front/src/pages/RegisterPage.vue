@@ -5,39 +5,17 @@
         <h1 class="main-title">Register</h1>
       </div>
       <q-form @submit="onSubmit" class="q-gutter-md">
-        <q-input
-          filled
-          v-model="pseudo"
-          label="Your pseudo *"
-          hint="Pseudonyme"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        />
-        <q-input
-          filled
-          v-model="password"
-          label="Your password *"
-          hint="password"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        />
-        <q-input
-          filled
-          v-model="email"
-          label="Your email *"
-          hint="email address"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        />
+        <q-input filled v-model="pseudo" label="Your pseudo *" hint="Pseudonyme" lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']" :error="!pseudoIsValid">
+          <template v-slot:error>Username already in use !</template>
+        </q-input>
+        <q-input filled v-model="password" label="Your password *" hint="password" lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']" />
+        <q-input filled v-model="email" label="Your email *" hint="email address" lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']" />
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
-          <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
+          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
     </div>
@@ -55,6 +33,7 @@ export default defineComponent({
       pseudo: "",
       password: "",
       email: "",
+      pseudoIsValid: true
     };
   },
   methods: {
@@ -66,12 +45,15 @@ export default defineComponent({
         password: this.password,
         email: this.email,
       }), (res) => {
-        console.log(res);
-        if(res.status === "ok") {
-          socket.disconnect();
+        if (res.status === "err") {
+          console.log(res)
+          this.pseudoIsValid = false;
         }
+        else {
+          this.$router.push({ name: "LoginPage" });
+        }
+        socket.disconnect();
       });
-      this.$router.push({ name: "LoginPage" });
     },
   },
 });
