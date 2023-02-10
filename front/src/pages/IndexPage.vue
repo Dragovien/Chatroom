@@ -79,7 +79,6 @@ export default defineComponent({
         user: loggedUser,
       });
       router.push({ name: "ChatPage" });
-
     });
   },
 });
