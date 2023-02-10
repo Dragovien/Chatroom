@@ -1,10 +1,13 @@
 <template>
+
     <div>
       <UserList></UserList>
     </div>
     <div>
         <ChatRoom></ChatRoom>
     </div>
+
+    
 </template>
 
 <script>
@@ -22,6 +25,9 @@ export default defineComponent({
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.wrapper {
+  display: flex;
+}
 
 </style>
