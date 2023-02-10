@@ -4,6 +4,7 @@ const ChatMessage = require('./Classes/ChatMessage.js');
 
 const registeredUsers = [];
 const registeredMessages = [];
+const connectedUsers = [];
 
 app.set("port", process.env.PORT || 3000);
 
@@ -26,7 +27,7 @@ io.on("connection", function (socket) {
     })
 
     socket.on("register", (user, callback) => {
-        console.log(`scoket id in register : ${socket.id}`)
+        console.log(`socket id in register : ${socket.id}`)
         if (registeredUsers.some((regUser) => regUser.pseudo == user.pseudo)) {
             callback({ status: "err" })
         }
@@ -45,6 +46,10 @@ io.on("connection", function (socket) {
             console.log(foundUser);
             socket.emit('checkedUser', foundUser);
         }
+    })
+
+    socket.on("userList", () => {
+        socket.emit('sendUserList', {registeredUsers: registeredUsers, connectedUsers: connectedUsers});
     })
 })
 

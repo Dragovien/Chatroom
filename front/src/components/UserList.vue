@@ -10,7 +10,7 @@
     <h1 class="room-title">Liste des utilisateurs</h1>
     <q-scroll-area class="user-list">
       <div v-for="user in userList" :key="user" class="users">
-        <p>{{ user }}</p>
+        <p>{{ filterConnectedUsers(user.pseudo) }}</p>
       </div>
     </q-scroll-area>
     <div class="q-pa-sm toggle-btn">
@@ -32,43 +32,24 @@
 import { defineComponent } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
+import socket from "src/utils/socket";
+
 
 export default defineComponent({
   name: "RoomList",
   data() {
     return {
       value: false,
-      userList: [
-        "Jean-Luc",
-        "Julien-Baptiste",
-        "Julien",
-        "Marie",
-        "Alice",
-        "Mireille",
-        "Jean-Luc",
-        "Julien-Baptiste",
-        "Julien",
-        "Marie",
-        "Alice",
-        "Mireille",
-        "Jean-Luc",
-        "Julien-Baptiste",
-        "Julien",
-        "Marie",
-        "Alice",
-        "Mireille",
-        "Jean-Luc",
-        "Julien-Baptiste",
-        "Julien",
-        "Marie",
-        "Alice",
-        "Mireille",
-      ],
+      userList: [],
     };
   },
   methods: {
     changeTheme() {
       this.$q.dark.toggle();
+    },
+
+    filterConnectedUsers() {
+      
     },
   },
   setup() {
@@ -89,6 +70,15 @@ export default defineComponent({
       }
     );
   },
+  mounted() {
+    socket.emit("userList");
+
+    socket.on("sendUserList", (allUsers) => {
+      this.userList = allUsers.registeredUsers;
+    })
+    
+    
+  }
 });
 </script>
 
