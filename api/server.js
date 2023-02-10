@@ -29,13 +29,10 @@ io.on("connection", function(socket){
     }
     console.log('utilisateurs connectés: ' + users)
 
-
-
     socket.on("messageSent", (user, message) => {
-        console.log(user)
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
         registeredMessages.push(newMessage)
-        socket.emit("messageReceived", registeredMessages);
+        io.emit("messageReceived", registeredMessages);
     })
 
     socket.on("register", (user, callback) => {
@@ -50,9 +47,6 @@ io.on("connection", function(socket){
             socket.emit('checkedUser', foundUser);
         }
     })
-
-
-    
 })
 
 const server = http.listen(3000, function() {
