@@ -94,10 +94,6 @@ export default defineComponent({
 
 <style scoped>
 
-.left-panel {
-  background-color: var(--q-color-grey-100);
-}
-
 .user-list {
   height: 70vh;
 }

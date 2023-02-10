@@ -20,15 +20,6 @@ io.on("connection", function (socket) {
         socket.emit("sendAllMessages", registeredMessages)
     })
 
-    // const users = [];
-    // for (let [id, socket] of io.of("/").sockets) {
-    //     users.push({
-    //         userId: id,
-    //         pseudo: socket.pseudo
-    //     });
-    // }
-    // console.log('utilisateurs connectés: ' + users)
-
     socket.on("messageSent", (user, message) => {
         let newMessage = new ChatMessage(User.getUserByName(user.pseudo, registeredUsers), message)
         registeredMessages.push(newMessage)
