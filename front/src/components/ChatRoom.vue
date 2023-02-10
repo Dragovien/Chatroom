@@ -11,6 +11,7 @@ export default defineComponent({
     return {
       text: "",
       chatMessages: [],
+      // messageBgcolor: ""
     };
   },
   methods: {
@@ -75,11 +76,12 @@ export default defineComponent({
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
           <q-chat-message
             :text="[chatMessage.message]"
+            text-html
             :name="chatMessage.sender.pseudo"
-            bg-color="amber-7"
+            name-html
             :sent="isSender(chatMessage.sender.id)"
             :stamp="getTime()"
-            class="test"
+            class="chat-message"
           />
         </div>
       </div>
@@ -114,5 +116,9 @@ export default defineComponent({
   position: absolute;
   bottom: 1em;
   max-width: 50vw;
+}
+
+.chat-message {
+  margin: 0.5em 2em;
 }
 </style>
