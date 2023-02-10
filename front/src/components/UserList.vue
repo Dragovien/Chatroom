@@ -8,13 +8,16 @@
     class="left-panel bg-primary"
   >
     <h1 class="room-title">Liste des utilisateurs</h1>
-    <q-scroll-area class="user-list">
+    <q-scroll-area :delay="1200" class="user-list">
       <h2 class="room-title">Utilisateurs connectés</h2>
       <ul v-for="user in filteredUsers.connectedUsers" :key="user" class="users">
-        <li>{{user.pseudo}}</li>
+        <li>
+          <q-chip square>{{user.pseudo}}</q-chip>
+        </li>
+        <q-separator color="white" inset/>
       </ul>
     </q-scroll-area>
-    <q-scroll-area class="user-list">
+    <q-scroll-area :delay="1200" class="user-list">
       <h2 class="room-title">Utilisateurs déconnectés</h2>
       <ul v-for="user in filteredUsers.disconnectedUsers" :key="user" class="users">
         <li>{{user.pseudo}}</li>
@@ -130,4 +133,5 @@ export default defineComponent({
 .toggle-label {
   color: white;
 }
+
 </style>
