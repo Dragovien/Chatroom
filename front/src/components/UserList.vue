@@ -3,19 +3,15 @@
     side="left"
     show-if-above
     bordered
-    :width="300"
+    :width="200"
     :breakpoint="500"
     class="left-panel bg-primary"
   >
     <h1 class="room-title">Liste des utilisateurs</h1>
     <q-scroll-area class="user-list">
-      
-    
-        <div v-for="user in userList" :key="user" class="users">
+      <div v-for="user in userList" :key="user" class="users">
         <p>{{ user }}</p>
       </div>
-     
-      
     </q-scroll-area>
     <div class="q-pa-sm toggle-btn">
       <q-toggle
@@ -97,12 +93,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .left-panel {
   background-color: var(--q-color-grey-100);
 }
 
 .user-list {
-  height: 80vh;
+  height: 70vh;
 }
 .users {
   margin-left: 1em;
