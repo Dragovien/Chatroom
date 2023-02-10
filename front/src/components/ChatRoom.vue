@@ -32,10 +32,6 @@ export default defineComponent({
       return `${hours}:${minutes}`;
     },
 
-    changeTheme() {
-      this.$q.dark.toggle();
-    },
-
     // getDate() {
     //   const date = new Date();
     //   const day = date.getDay();
@@ -63,9 +59,7 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <div class="q-pa-md row justify-center test">
-      <div>
-        <q-btn @click="changeTheme()"> change theme </q-btn>
-      </div>
+      
       <!-- <div>
         <q-chat-message
         :label="getDate()"
@@ -75,11 +69,12 @@ export default defineComponent({
         <div v-for="(chatMessage, i) in chatMessages" :key="i">
           <q-chat-message
             :text="[chatMessage.message]"
+            text-html
             :name="chatMessage.sender.pseudo"
-            bg-color="amber-7"
+            name-html
             :sent="isSender(chatMessage.sender.id)"
             :stamp="getTime()"
-            class="test"
+            class="chat-message"
           />
         </div>
       </div>
@@ -104,7 +99,7 @@ export default defineComponent({
   position: relative;
   top: 2em;
   border: 2px solid black;
-  width: 100%;
+  width: 50vw;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 80vh;
@@ -113,6 +108,11 @@ export default defineComponent({
 .textInput {
   position: absolute;
   bottom: 1em;
-  max-width: 50vw;
+  width: 50vw;
 }
+
+.chat-message {
+  margin: 0.5em 2em;
+}
+
 </style>
